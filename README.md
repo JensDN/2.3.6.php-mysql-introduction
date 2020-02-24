@@ -1,2 +1,2 @@
-# 2.3.6.php-mysgl-introduction
+# 2.3.6.php-mysql-introduction
 Learning Challenge
