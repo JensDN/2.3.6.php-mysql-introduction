@@ -5,8 +5,14 @@ require 'Model/Student.php';
 require 'Model/Table.php';
 require 'Controller/HomePageController.php';
 $controller = new HomePageController;
-$controller->render();
-$controller->postForm();
-var_dump($_POST);
-$controller->createTable();
+if (empty($_POST)){
+    $controller->renderInsert();
+}
+if (!empty($_POST)) {
+    $controller->postForm();
+    $controller->createTable();
+    $_POST = array();
+}
+
+
 

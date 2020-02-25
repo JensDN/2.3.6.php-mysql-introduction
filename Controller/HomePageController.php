@@ -17,10 +17,11 @@ class HomePageController
             if (isset($this->student)) {
                 $this->student->postData(); // This will perform the post of the student properties to the MySQL Database.
             }
+
         }
 
     }
-    public function render(){
+    public function renderInsert(){
         require 'View/homepage.php';
     }
 }
