@@ -6,6 +6,7 @@ require 'Model/Table.php';
 require 'Controller/HomePageController.php';
 $controller = new HomePageController;
 $controller->renderInsert();
+$controller->postForm();
 $controller->createTable();
 
 

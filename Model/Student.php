@@ -123,7 +123,7 @@ class Student
             'linkedin' => $this->linkedin,
             'github' => $this->github,
             'email'=> $this->email,
-            'preferred_language' => $this->language);
+            'language' => $this->language);
     }
 
     public function getData(int $id){
@@ -151,8 +151,8 @@ class Student
             die('ERROR: Could not connect. ');
         }
         // Print host information
-        $stmt = $link->prepare('INSERT INTO student (first_name, last_name, username, linkedin, github, email, preferred_language) VALUES
-            (:first_name, :last_name, :username, :linkedin, :github, :email, :preferred_language)');
+        $stmt = $link->prepare('INSERT INTO student (first_name, last_name, username, linkedin, github, email, language) VALUES
+            (:first_name, :last_name, :username, :linkedin, :github, :email, :language)');
         try {
             $stmt->execute($this->prepareQuery());
             echo 'Connect Successfully. Yes Baby';
@@ -161,7 +161,7 @@ class Student
         }
         catch(PDOException $e)
         {
-            echo $stmt . '<br>' . $e->getMessage();
+            echo var_dump($stmt) . '<br>' . $e->getMessage();
         }
         $link = null;
 
@@ -175,7 +175,7 @@ class Student
     }
     protected function fill( array $row ): void
     {// fill all properties from array
-        $this->id = (int) $row['id'];
+
        $this->first_name = $row['first_name']?? 'unknown';
        $this->last_name = $row['last_name']?? ' unknown';
        $this->username = $row['username']?? 'unknown';

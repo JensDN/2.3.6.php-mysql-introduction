@@ -12,8 +12,7 @@ class HomePageController
         //Below i use $_POST to fill my Student __constructor/properties, and to post my form to mySQL Database.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($_POST['becode_student_first_name']) {
-                $this->student = new Student;
-                $this->student::withRow(Array (
+                $this->student = Student::withRow(Array (
                     'first_name' => $_POST['becode_student_first_name'],
                     'last_name' => $_POST['becode_student_last_name'],
                     'username' => $_POST['becode_student_username'],

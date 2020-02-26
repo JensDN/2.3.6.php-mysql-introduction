@@ -13,7 +13,7 @@ class MyPDO extends PDO {
         $dns = $settings['database']['driver'] .
             ':host=' . $settings['database']['host'] .
             ((!empty($settings['database']['port'])) ? (';port=' . $settings['database']['port']) : '') .
-            ';dbname=' . $settings['database']['schema'].';charset='.$settings['database']['charset'];
+            ';dbname=' . $settings['database']['schema'];
         // Below i used the parent class PDO to create my connection to mysql database. So i can use The MyPDO class for creating an connection.
         parent :: __construct($dns, $settings['database']['username'], $settings['database']['password']);
         $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // This sets the  error-handling for MyPDO.

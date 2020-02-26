@@ -31,7 +31,7 @@ class Table
             echo '<td>' . $row['linkedin'] . '</td>';
             echo '<td>' . $row['github'] . '</td>';
             echo '<td>' . $row['email'] . '</td>';
-            echo '<td><img style="height:2vh;width:2vh;" src="View/flags/' . $row['preferred_language'] . '.ico"></td>';
+            echo '<td><img style="height:2vh;width:2vh;" src="View/flags/' . $row['language'] . '.ico"></td>';
             echo '<td><a href="http://php-mysql.localhost/profile.php/?user=' . $row['id'] . '">Profile</a></td>';
             echo '</tr>';
         }
