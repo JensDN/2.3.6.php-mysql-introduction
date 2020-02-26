@@ -20,6 +20,7 @@ class Table
         echo '<th>Linkedin</th>';
         echo '<th>Github</th>';
         echo '<th>Email</th>';
+        echo '<th>Gender</th>';
         echo '<th>Language</th>';
         echo '<th>Profile Page</th>';
         echo '</tr>';
@@ -31,6 +32,7 @@ class Table
             echo '<td>' . $row['linkedin'] . '</td>';
             echo '<td>' . $row['github'] . '</td>';
             echo '<td>' . $row['email'] . '</td>';
+            echo '<td>' . $row['gender'].'</td>';
             echo '<td><img style="height:2vh;width:2vh;" src="View/flags/' . $row['language'] . '.ico"></td>';
             echo '<td><a href="http://php-mysql.localhost/profile.php/?user=' . $row['id'] . '">Profile</a></td>';
             echo '</tr>';

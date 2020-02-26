@@ -8,7 +8,7 @@
 			<h2>Student</h2>
 			<p>Information About u;</p>
 		</div>
-			<ul >
+            <ul >
 
 					<li id="li_1" >
 		<label class="description" for="element_1">First Name </label>
@@ -52,6 +52,13 @@
 
 		</select>
 		</div><p class="guidelines" id="guide_7"><small>Plz enter your preferred language.</small></p>
+                    <select class="element select medium" id="element_7" name="becode.student.gender">
+                        <option value="m" selected="selected">male</option>
+                        <option value="f" >female</option>
+
+
+
+                    </select>
 		</li>
 
 					<li class="buttons">

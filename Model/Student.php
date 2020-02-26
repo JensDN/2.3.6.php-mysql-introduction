@@ -16,6 +16,7 @@ class Student
     private string $quote;
     private string $quote_author;
     private string $created_at;
+    private string $gender;
 
     /**
      * @return string
@@ -123,7 +124,8 @@ class Student
             'linkedin' => $this->linkedin,
             'github' => $this->github,
             'email'=> $this->email,
-            'language' => $this->language);
+            'language' => $this->language,
+            'gender'=> $this->gender);
     }
 
     public function getData(int $id){
@@ -151,8 +153,8 @@ class Student
             die('ERROR: Could not connect. ');
         }
         // Print host information
-        $stmt = $link->prepare('INSERT INTO student (first_name, last_name, username, linkedin, github, email, language) VALUES
-            (:first_name, :last_name, :username, :linkedin, :github, :email, :language)');
+        $stmt = $link->prepare('INSERT INTO student (first_name, last_name, username, linkedin, github, email, language, gender) VALUES
+            (:first_name, :last_name, :username, :linkedin, :github, :email, :language, :gender)');
         try {
             $stmt->execute($this->prepareQuery());
             echo 'Connect Successfully. Yes Baby';
@@ -173,6 +175,43 @@ class Student
         $instance->loadByID( $id );
         return $instance;
     }
+    private function callAPI($method, $url, $data){
+        $curl = curl_init();
+        switch ($method){
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
+        // OPTIONS:
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'APIKEY: 111111111111111111111',
+            'Content-Type: application/json',
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        // EXECUTE:
+        $result = curl_exec($curl);
+        if(!$result){die("Connection Failure");}
+        header('Content-type: image/jpeg');
+        curl_close($curl);
+        return $result;
+    }
+    public function callAPIBeLikeBill()
+    {
+        $url = 'https://belikebill.ga/billgen-API.php?default=1&name='.$this->first_name.'&sex='.$this->gender;
+        return $this->callAPI('POST', $url ,false);
+    }
     protected function fill( array $row ): void
     {// fill all properties from array
 
@@ -183,6 +222,7 @@ class Student
        $this->github = $row['github']?? 'unknown';
        $this->email = $row['email']?? 'unknown';
        $this->language = $row['preferred_language']?? 'unknown';
+       $this->gender = $row['gender'] ?? 'm';
        $this->avatar = $row['avatar']?? 'unknown';
        $this->video = $row['video']?? 'unknown';
        $this->quote = $row['quote']?? 'unknown';
