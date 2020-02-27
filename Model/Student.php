@@ -17,6 +17,40 @@ class Student
     private string $quote_author;
     private string $created_at;
     private string $gender;
+    private string $password;
+
+    public static function withRow( array $row ): \Student
+    {
+        $instance = new self();
+        $instance->fill( $row );
+        return $instance;
+    }
+    public static function withID( int $id ): \Student
+    {
+        $instance = new self();
+        $instance->loadByID( $id );
+        return $instance;
+    }
+    protected function fill( array $row ): void
+    {// fill all properties from array
+
+        $this->first_name = htmlspecialchars($row['first_name'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->last_name = htmlspecialchars($row['last_name'], ENT_QUOTES, 'UTF-8')?? ' unknown';
+        $this->username = htmlspecialchars($row['username'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->linkedin = htmlspecialchars($row['linkedin'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->github = htmlspecialchars($row['github'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->email = htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->language = htmlspecialchars($row['preferred_language'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->gender = htmlspecialchars($row['gender'], ENT_QUOTES, 'UTF-8') ?? 'm';
+        $this->avatar = htmlspecialchars($row['avatar'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->video = htmlspecialchars($row['video'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->quote = htmlspecialchars($row['quote'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->quote_author = htmlspecialchars($row['quote_author'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->created_at = htmlspecialchars($row['created_at'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+        $this->password = htmlspecialchars($row['password'], ENT_QUOTES, 'UTF-8')?? 'unknown';
+
+    }
+
 
     /**
      * @return string
@@ -121,6 +155,7 @@ class Student
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'username' => $this->username,
+            'password' => $this->password,
             'linkedin' => $this->linkedin,
             'github' => $this->github,
             'email'=> $this->email,
@@ -153,8 +188,8 @@ class Student
             die('ERROR: Could not connect. ');
         }
         // Print host information
-        $stmt = $link->prepare('INSERT INTO student (first_name, last_name, username, linkedin, github, email, language, gender) VALUES
-            (:first_name, :last_name, :username, :linkedin, :github, :email, :language, :gender)');
+        $stmt = $link->prepare('INSERT INTO student (first_name, last_name, username, password, linkedin, github, email, language, gender) VALUES
+            (:first_name, :last_name, :username, :password, :linkedin, :github, :email, :language, :gender)');
         try {
             $stmt->execute($this->prepareQuery());
             echo 'Connect Successfully. Yes Baby';
@@ -169,12 +204,6 @@ class Student
 
     }
 
-    public static function withID( int $id ): \Student
-    {
-        $instance = new self();
-        $instance->loadByID( $id );
-        return $instance;
-    }
     private function callAPI($method, $url, $data){
         $curl = curl_init();
         switch ($method){
@@ -212,36 +241,12 @@ class Student
         $url = 'https://belikebill.ga/billgen-API.php?default=1&name='.$this->first_name.'&sex='.$this->gender;
         return $this->callAPI('POST', $url ,false);
     }
-    protected function fill( array $row ): void
-    {// fill all properties from array
-
-       $this->first_name = $row['first_name']?? 'unknown';
-       $this->last_name = $row['last_name']?? ' unknown';
-       $this->username = $row['username']?? 'unknown';
-       $this->linkedin = $row['linkedin']?? 'unknown';
-       $this->github = $row['github']?? 'unknown';
-       $this->email = $row['email']?? 'unknown';
-       $this->language = $row['preferred_language']?? 'unknown';
-       $this->gender = $row['gender'] ?? 'm';
-       $this->avatar = $row['avatar']?? 'unknown';
-       $this->video = $row['video']?? 'unknown';
-       $this->quote = $row['quote']?? 'unknown';
-       $this->quote_author = $row['quote_author']?? 'unknown';
-       $this->created_at = $row['created_at']?? 'unknown';
-
-    }
     protected function loadByID( $id ): void
     {
         // do query
         $row = $this->getData($id);
         var_dump($row);
         $this->fill($row);
-    }
-    public static function withRow( array $row ): \Student
-    {
-        $instance = new self();
-        $instance->fill( $row );
-        return $instance;
     }
 
 }
